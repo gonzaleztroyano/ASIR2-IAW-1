@@ -1,4 +1,0 @@
-Hola, fichero2
-f222
-ESTO ES UN ARCHIVO GUAY
-f222
