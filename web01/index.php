@@ -2,6 +2,7 @@
     <head>
         <link rel="stylesheet" href="css/estilo.css">
         <script src="js/prog.js"></script>
+	<!--Comentario-->
     </head>
     <body>
         <h1>Esto es un título</h1>
