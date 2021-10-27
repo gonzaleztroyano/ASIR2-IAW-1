@@ -13,8 +13,8 @@
             visital con tu navegador
         </pre>
         <?php
-      echo "Esto lo escribe <b>PHP</b>"
-      echo "Versión 2"
+      echo "Esto lo escribe <b>PHP</b>";
+      echo "Versión 2";
     ?>
     </body>
 </html>
