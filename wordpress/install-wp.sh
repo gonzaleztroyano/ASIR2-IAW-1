@@ -8,23 +8,34 @@ echo "||   Paquetes disponibles   ||"
 echo "||        desde APT         ||"
 echo "=============================="
 
-
 apt update
 
-# apt install apache2 ufw
-# sudo ufw allow "Apache Full"
-# libapache2-mod-php
+## Instalar Apache y UFW
+sudo apt -y install apache2 ufw
 
-apt install -Y mariadb-server-10.1 mariadb-client-10.1 mariadb-client mariadb-server php7.2 php7.2-cli php7.2-curl php7.2-gd php7.2-json php7.2-mbstring php7.2-mysql php7.2-xml php7.2-zip php7.2-xsl
+## Permitir Apache
+sudo ufw allow in "Apache Full"
+
+## Paquetes necesarios
+apt install -y php libapache2-mod-php php-mysql php-cli mariadb-server mariadb-client php-curl php-gd php-mbstring php-xml php-xmlrpc php-soap php-intl php-zip
+
+## Recargar apache
+sudo systemctl restart apache2
 
 ######## MARIADB ###########
+mysql -u root -p
 
 CREATE DATABASE miprimerwp;
 CREATE USER 'pepi'@localhost IDENTIFIED BY 'usuario';
-GRAN ALL ON miprimerwp miprimerwp.* TO 'pepi'@'localhost';
+GRANT ALL ON miprimerwp.* TO 'pepi'@'localhost' IDENTIFIED BY 'usuario';
+ 
+;
 
-echo -e "<VirtualHost *:80> \n ServerAdmin webmaster@localhost \n ServerName wp.iaw.com \n DocumentRoot /var/www/wordpress/public \n ErrorLog /var/log/apache2/wp.iaw.com \n CustomLog /var/log/c-wp.iaw.com combined \n </VirtualHost> \n" > /etc/apache2/sites-available/wp.conf
+echo -e "<VirtualHost *:80> \n ServerAdmin webmaster@localhost \n ServerName wp.iaw.com \n DocumentRoot /var/www/wordpress/ \n ErrorLog /var/log/apache2/wp.iaw.com \n CustomLog /var/log/c-wp.iaw.com combined \n </VirtualHost> \n" > /etc/apache2/sites-available/wp.conf
 
+a2enmod rewrite
+a2ensite wp.conf
+sudo systemctl restart apache2
 
 wget https://wordpress.org/latest.tar.gz
 
@@ -33,4 +44,4 @@ tar xvzf latest.tar.gz
 mv wordpress/ /var/www/wordpress
 chmod -R 770 /var/www/wordpress
 
-chmod -R www-data:www-data /var/www/wordpress
+chown -R www-data:www-data /var/www/wordpress
